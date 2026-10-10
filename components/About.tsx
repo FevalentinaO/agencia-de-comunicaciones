@@ -17,12 +17,12 @@ export default function About() {
     <section
       id="quienes-somos"
       aria-labelledby="quienes-somos-heading"
-      className="mx-auto w-full max-w-5xl scroll-mt-28 px-4 py-24"
+      className="mx-auto w-full max-w-5xl scroll-mt-28 px-4 py-16"
     >
       <RevealOnScroll>
         <div className="neu-raised grid gap-10 rounded-[2.5rem] p-8 sm:p-12 md:grid-cols-[1.1fr_1fr] md:items-center md:gap-14">
           <div className="flex flex-col items-start gap-6">
-            <p className="text-xs font-medium tracking-[0.3em] text-(--text) uppercase">
+            <p className="text-sm font-medium tracking-[0.3em] text-(--text) uppercase">
               Quiénes somos
             </p>
 
@@ -69,7 +69,7 @@ export default function About() {
                     <span className="font-(family-name:--font-display) text-xl font-medium text-(--text-strong)">
                       {person.name}
                     </span>
-                    <span className="text-xs tracking-wide text-(--text)">
+                    <span className="text-sm tracking-wide text-(--text)">
                       Directora de Agencia
                     </span>
                   </span>
@@ -77,22 +77,27 @@ export default function About() {
               ))}
             </ul>
 
-            <ol className="flex flex-col gap-3">
-              {STEPS.map((step, index) => (
-                <li
-                  key={step}
-                  className="neu-inset flex items-center gap-4 rounded-full py-3 pr-6 pl-4 text-sm text-(--text-strong)"
-                >
-                  <span
-                    aria-hidden="true"
-                    className="neu-raised-sm flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-medium"
+            <div className="flex flex-col gap-4">
+              <h3 className="text-sm font-medium tracking-[0.3em] text-(--text) uppercase">
+                Cómo trabajamos
+              </h3>
+              <ol className="relative flex flex-col gap-5 before:absolute before:top-4 before:bottom-4 before:left-4 before:w-px before:bg-(--text-strong)/20">
+                {STEPS.map((step, index) => (
+                  <li
+                    key={step}
+                    className="relative flex items-center gap-4 text-sm text-(--text-strong)"
                   >
-                    {index + 1}
-                  </span>
-                  {step}
-                </li>
-              ))}
-            </ol>
+                    <span
+                      aria-hidden="true"
+                      className="neu-raised-sm relative flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm font-medium"
+                    >
+                      {index + 1}
+                    </span>
+                    {step}
+                  </li>
+                ))}
+              </ol>
+            </div>
           </div>
         </div>
       </RevealOnScroll>

@@ -5,7 +5,7 @@
   --surface: #edf0f4;
   --shadow-light: rgba(255, 255, 255, 0.9);
   --shadow-dark: rgba(163, 177, 198, 0.45);
-  --text: #6b625c;
+  --text: #5a514b;
   --text-strong: #4a423c;
   --accent: #1f2a44;
   --quartz: #f6f3ef;
@@ -30,6 +30,7 @@
 
 html {
   color-scheme: light;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -93,6 +94,26 @@ body {
   box-shadow: 3px 3px 5px var(--pill-shadow-dark),
     -3px -3px 5px var(--pill-shadow-light);
   transition-duration: 0.5s;
+}
+
+.soft-surface[aria-pressed="true"] {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.pin-pulse {
+  animation: pin-pulse 2.6s ease-out infinite;
+}
+
+@keyframes pin-pulse {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
 }
 
 .pop-pill {

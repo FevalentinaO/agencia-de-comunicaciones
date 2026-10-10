@@ -6,11 +6,11 @@ export default function Galerias() {
     <section
       id="galerias"
       aria-labelledby="galerias-heading"
-      className="mx-auto w-full max-w-5xl scroll-mt-28 px-4 py-24"
+      className="mx-auto w-full max-w-5xl scroll-mt-28 px-4 py-16"
     >
       <RevealOnScroll className="flex flex-col items-center gap-12">
         <div className="flex max-w-2xl flex-col items-center gap-5 text-center">
-          <p className="text-xs font-medium tracking-[0.3em] text-(--text) uppercase">
+          <p className="text-sm font-medium tracking-[0.3em] text-(--text) uppercase">
             Galerías
           </p>
           <h2

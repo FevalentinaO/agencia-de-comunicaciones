@@ -250,15 +250,18 @@ export default function GlobeExplorer() {
               onClick={() => selectPin(pin)}
               className="group absolute top-0 left-0 z-10 flex h-9 w-9 items-center justify-center rounded-full opacity-0 transition-opacity duration-300 focus-visible:outline-2 focus-visible:outline-(--accent) focus-visible:outline-offset-2"
             >
-              {selected && (
-                <span className="absolute inset-0 animate-ping rounded-full bg-(--accent)/30" />
-              )}
+              <span
+                aria-hidden="true"
+                className={`pin-pulse absolute inset-1 rounded-full ${
+                  selected ? "bg-(--accent)/40" : "bg-(--text-strong)/25"
+                }`}
+              />
               <span
                 className={`relative block h-3.5 w-3.5 rounded-full border-2 border-white shadow-[0_2px_6px_rgba(31,42,68,0.45)] transition-transform duration-300 group-hover:scale-125 ${
                   selected ? "bg-(--accent)" : "bg-(--text-strong)"
                 }`}
               />
-              <span className="pointer-events-none absolute bottom-full mb-1 rounded-full bg-(--quartz) px-3 py-1 text-[11px] font-medium tracking-wide whitespace-nowrap text-(--text-strong) opacity-0 shadow-[0_2px_8px_rgba(74,66,60,0.18)] transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100">
+              <span className="pointer-events-none absolute bottom-full mb-1 rounded-full bg-(--quartz) px-3 py-1 text-xs font-medium tracking-wide whitespace-nowrap text-(--text-strong) opacity-0 shadow-[0_2px_8px_rgba(74,66,60,0.18)] transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100">
                 {pin.name}
               </span>
             </button>
@@ -273,7 +276,7 @@ export default function GlobeExplorer() {
             type="button"
             aria-pressed={pin.id === selectedId}
             onClick={() => selectPin(pin)}
-            className="soft-surface rounded-full px-5 py-2 text-xs font-medium tracking-[0.14em] uppercase focus-visible:outline-2 focus-visible:outline-(--accent) focus-visible:outline-offset-2"
+            className="soft-surface rounded-full px-5 py-2 text-sm font-medium tracking-[0.14em] uppercase focus-visible:outline-2 focus-visible:outline-(--accent) focus-visible:outline-offset-2"
           >
             {pin.name}
           </button>

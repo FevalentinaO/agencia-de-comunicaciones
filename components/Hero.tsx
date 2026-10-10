@@ -29,9 +29,12 @@ export default function Hero() {
           </h1>
 
           <div data-hero-subtitle>
-            <p className="pop-pill text-sm tracking-wide sm:text-base">
+            <a
+              href="#quienes-somos"
+              className="pop-pill inline-block text-sm tracking-wide focus-visible:outline-2 focus-visible:outline-(--accent) focus-visible:outline-offset-2 sm:text-base"
+            >
               Caro &amp; Diana. Directoras de Agencia.
-            </p>
+            </a>
           </div>
         </div>
       </div>

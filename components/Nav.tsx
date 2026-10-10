@@ -11,11 +11,47 @@ const LINKS = [
 ];
 
 const linkClass =
-  "text-xs font-medium tracking-[0.18em] text-(--text-strong) uppercase transition-colors hover:text-(--accent) focus-visible:outline-2 focus-visible:outline-(--accent) focus-visible:outline-offset-4";
+  "text-sm font-medium tracking-[0.18em] text-(--text-strong) uppercase transition-colors hover:text-(--accent) focus-visible:outline-2 focus-visible:outline-(--accent) focus-visible:outline-offset-4";
+
+const activeClass = "text-(--accent) underline decoration-2 underline-offset-8";
 
 export default function Nav() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [active, setActive] = useState<string | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
+
+  // Highlight the section crossing the middle of the screen.
+  useEffect(() => {
+    const ids = LINKS.map((link) => link.href.slice(1));
+    const inBand = new Set<string>();
+    const sync = () => {
+      const atBottom =
+        window.innerHeight + window.scrollY >=
+        document.documentElement.scrollHeight - 4;
+      if (atBottom && window.scrollY > 0) return setActive("#contacto");
+      const current = ids.filter((id) => inBand.has(id)).pop();
+      setActive(current ? `#${current}` : null);
+    };
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) inBand.add(entry.target.id);
+          else inBand.delete(entry.target.id);
+        }
+        sync();
+      },
+      { rootMargin: "-45% 0px -50% 0px" }
+    );
+    for (const id of ids) {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    }
+    window.addEventListener("scroll", sync, { passive: true });
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("scroll", sync);
+    };
+  }, []);
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -62,7 +98,12 @@ export default function Nav() {
           className="neu-raised pointer-events-auto hidden items-center gap-8 rounded-full px-8 py-4 lg:flex"
         >
           {LINKS.map((link) => (
-            <a key={link.href} href={link.href} className={linkClass}>
+            <a
+              key={link.href}
+              href={link.href}
+              aria-current={active === link.href ? "location" : undefined}
+              className={`${linkClass} ${active === link.href ? activeClass : ""}`}
+            >
               {link.label}
             </a>
           ))}
@@ -112,7 +153,8 @@ export default function Nav() {
               href={link.href}
               tabIndex={menuOpen ? 0 : -1}
               onClick={() => setMenuOpen(false)}
-              className={`${linkClass} rounded-2xl px-4 py-3 hover:bg-(--surface) hover:shadow-[inset_3px_3px_5px_var(--pill-shadow-dark),inset_-3px_-3px_5px_var(--pill-shadow-light)]`}
+              aria-current={active === link.href ? "location" : undefined}
+              className={`${linkClass} ${active === link.href ? activeClass : ""} rounded-2xl px-4 py-3 hover:bg-(--surface) hover:shadow-[inset_3px_3px_5px_var(--pill-shadow-dark),inset_-3px_-3px_5px_var(--pill-shadow-light)]`}
             >
               {link.label}
             </a>

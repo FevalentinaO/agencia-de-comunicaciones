@@ -4,26 +4,10 @@ import { useRef, useState } from "react";
 
 type Status = "idle" | "sending" | "success" | "error";
 
-function MailIcon() {
-  return (
-    <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" aria-hidden="true">
-      <rect x="3.5" y="5.5" width="17" height="13" rx="1.5" stroke="currentColor" strokeWidth="1.3" />
-      <path d="M4 7l8 6 8-6" stroke="currentColor" strokeWidth="1.3" fill="none" />
-    </svg>
-  );
-}
-
-function SheetIcon() {
-  return (
-    <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" aria-hidden="true">
-      <rect x="4" y="4" width="16" height="16" rx="1.5" stroke="currentColor" strokeWidth="1.3" />
-      <path d="M4 10h16M4 15h16M10 4v16" stroke="currentColor" strokeWidth="1.1" />
-    </svg>
-  );
-}
+const fieldClass =
+  "neu-inset w-full rounded-2xl px-5 py-3.5 text-sm text-(--text-strong) placeholder:text-(--text) focus-visible:outline-2 focus-visible:outline-(--accent) focus-visible:outline-offset-2";
 
 export default function ContactBar() {
-  const [expanded, setExpanded] = useState(false);
   const [status, setStatus] = useState<Status>("idle");
   const [errorMsg, setErrorMsg] = useState("");
   const formRef = useRef<HTMLFormElement>(null);
@@ -47,7 +31,6 @@ export default function ContactBar() {
       if (!res.ok) throw new Error(json.error ?? "Error al enviar");
       setStatus("success");
       form.reset();
-      setExpanded(false);
     } catch (err) {
       setStatus("error");
       setErrorMsg(err instanceof Error ? err.message : "Error al enviar");
@@ -58,18 +41,26 @@ export default function ContactBar() {
     <section
       id="contacto"
       data-hero-contact
-      className="mx-auto w-full max-w-2xl px-4 pb-16"
+      className="mx-auto w-full max-w-2xl scroll-mt-28 px-4 pb-20"
       aria-labelledby="contacto-heading"
     >
-      <h2 id="contacto-heading" className="sr-only">
-        Conecta con nosotras
-      </h2>
-
       <form
         ref={formRef}
         onSubmit={handleSubmit}
-        className="neu-raised flex flex-col gap-4 rounded-[2rem] p-5 sm:p-6"
+        className="neu-raised flex flex-col gap-5 rounded-[2rem] p-6 sm:p-10"
       >
+        <div className="flex flex-col gap-2 text-center">
+          <h2
+            id="contacto-heading"
+            className="font-(family-name:--font-display) text-3xl font-medium tracking-wide text-(--text-strong) sm:text-4xl"
+          >
+            Hablemos
+          </h2>
+          <p className="text-base text-(--text)">
+            Cuéntanos tu idea y te respondemos pronto.
+          </p>
+        </div>
+
         {/* Honeypot: hidden from real users, bots tend to fill every field */}
         <input
           type="text"
@@ -80,63 +71,56 @@ export default function ContactBar() {
           aria-hidden="true"
         />
 
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <input
+            type="text"
+            name="name"
+            required
+            minLength={2}
+            autoComplete="name"
+            aria-label="Tu nombre"
+            placeholder="Tu nombre"
+            className={fieldClass}
+          />
+          <input
+            type="email"
+            name="email"
+            required
+            autoComplete="email"
+            aria-label="Tu correo"
+            placeholder="Tu correo"
+            className={fieldClass}
+          />
+        </div>
+
         <textarea
           name="message"
           required
           minLength={5}
-          rows={expanded ? 2 : 1}
+          rows={4}
+          aria-label="Tu idea"
           placeholder="Tu idea…"
-          onFocus={() => setExpanded(true)}
-          className="neu-inset w-full resize-none rounded-2xl px-5 py-4 text-sm text-(--text-strong) placeholder:text-(--text) focus-visible:outline-2 focus-visible:outline-(--accent) focus-visible:outline-offset-2"
+          className={`${fieldClass} resize-none`}
         />
 
-        {expanded && (
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-            <input
-              type="text"
-              name="name"
-              required
-              minLength={2}
-              placeholder="Tu nombre"
-              className="neu-inset rounded-2xl px-5 py-3 text-sm text-(--text-strong) placeholder:text-(--text) focus-visible:outline-2 focus-visible:outline-(--accent) focus-visible:outline-offset-2"
-            />
-            <input
-              type="email"
-              name="email"
-              required
-              placeholder="Tu correo"
-              className="neu-inset rounded-2xl px-5 py-3 text-sm text-(--text-strong) placeholder:text-(--text) focus-visible:outline-2 focus-visible:outline-(--accent) focus-visible:outline-offset-2"
-            />
-          </div>
-        )}
-
-        <div className="flex flex-wrap items-center justify-between gap-4 pt-1">
-          <div className="flex items-center gap-3 text-(--text)">
-            <span className="neu-raised-sm flex h-9 w-9 items-center justify-center rounded-full">
-              <MailIcon />
-            </span>
-            <span className="neu-raised-sm flex h-9 w-9 items-center justify-center rounded-full">
-              <SheetIcon />
-            </span>
-            <p className="text-xs leading-tight">
-              Tu consulta, directa
-              <br />a nuestros sistemas.
-            </p>
-          </div>
-
+        <div className="flex flex-col items-center gap-3">
           <button
             type="submit"
             disabled={status === "sending"}
-            className="neu-raised-sm rounded-full px-6 py-2.5 text-xs font-medium tracking-[0.14em] text-(--text-strong) uppercase transition-shadow disabled:opacity-60 focus-visible:outline-2 focus-visible:outline-(--accent) focus-visible:outline-offset-2"
+            className="pop-pill text-sm tracking-wide disabled:opacity-60 focus-visible:outline-2 focus-visible:outline-(--accent) focus-visible:outline-offset-2"
           >
-            {status === "sending" ? "Enviando…" : "Conecta con nosotras"}
+            {status === "sending" ? "Enviando…" : "Enviar mensaje"}
           </button>
-        </div>
 
-        <p role="status" aria-live="polite" className="min-h-[1.25rem] text-xs text-(--text-strong)">
-          {status === "success" && "Recibido. Te escribimos pronto."}
-          {status === "error" && (errorMsg || "Algo falló. Intenta de nuevo.")}
-        </p>
+          <p
+            role="status"
+            aria-live="polite"
+            className="min-h-[1.25rem] text-sm text-(--text-strong)"
+          >
+            {status === "success" && "Recibido. Te escribimos pronto."}
+            {status === "error" && (errorMsg || "Algo falló. Intenta de nuevo.")}
+          </p>
+        </div>
       </form>
     </section>
   );
