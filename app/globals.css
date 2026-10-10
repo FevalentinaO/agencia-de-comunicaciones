@@ -1,0 +1,140 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #e9ecf0;
+  --surface: #edf0f4;
+  --shadow-light: rgba(255, 255, 255, 0.9);
+  --shadow-dark: rgba(163, 177, 198, 0.45);
+  --text: #6b625c;
+  --text-strong: #4a423c;
+  --accent: #1f2a44;
+  --quartz: #f6f3ef;
+  --pill-shadow-dark: #c3cad6;
+  --pill-shadow-light: #ffffff;
+
+  --neu-distance: 8px;
+  --neu-blur: 18px;
+  --neu-distance-sm: 4px;
+  --neu-blur-sm: 10px;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-text: var(--text);
+  --color-text-strong: var(--text-strong);
+  --color-accent: var(--accent);
+  --font-display: var(--font-display);
+  --font-sans: var(--font-sans);
+}
+
+html {
+  color-scheme: light;
+}
+
+body {
+  background: var(--bg);
+}
+
+/* Neumorphic surfaces */
+.neu-raised {
+  background: var(--surface);
+  box-shadow: var(--neu-distance) var(--neu-distance) var(--neu-blur) var(--shadow-dark),
+    calc(var(--neu-distance) * -1) calc(var(--neu-distance) * -1) var(--neu-blur) var(--shadow-light);
+  transition: box-shadow 0.3s ease;
+}
+
+.neu-raised-sm {
+  background: var(--surface);
+  box-shadow: var(--neu-distance-sm) var(--neu-distance-sm) var(--neu-blur-sm) var(--shadow-dark),
+    calc(var(--neu-distance-sm) * -1) calc(var(--neu-distance-sm) * -1) var(--neu-blur-sm) var(--shadow-light);
+  transition: box-shadow 0.3s ease;
+}
+
+.neu-raised-sm:hover {
+  box-shadow: inset calc(var(--neu-distance-sm) * 0.6) calc(var(--neu-distance-sm) * 0.6) calc(var(--neu-blur-sm) * 0.8) var(--shadow-dark),
+    inset calc(var(--neu-distance-sm) * -0.6) calc(var(--neu-distance-sm) * -0.6) calc(var(--neu-blur-sm) * 0.8) var(--shadow-light);
+}
+
+.neu-inset {
+  background: var(--surface);
+  box-shadow: inset var(--neu-distance-sm) var(--neu-distance-sm) var(--neu-blur-sm) var(--shadow-dark),
+    inset calc(var(--neu-distance-sm) * -1) calc(var(--neu-distance-sm) * -1) var(--neu-blur-sm) var(--shadow-light);
+}
+
+.neu-pressed:active,
+.neu-pressed[data-pressed="true"] {
+  box-shadow: inset var(--neu-distance-sm) var(--neu-distance-sm) var(--neu-blur-sm) var(--shadow-dark),
+    inset calc(var(--neu-distance-sm) * -1) calc(var(--neu-distance-sm) * -1) var(--neu-blur-sm) var(--shadow-light);
+}
+
+.neu-raised:hover {
+  box-shadow: calc(var(--neu-distance) * 1.2) calc(var(--neu-distance) * 1.2) calc(var(--neu-blur) * 1.1) var(--shadow-dark),
+    calc(var(--neu-distance) * -1.2) calc(var(--neu-distance) * -1.2) calc(var(--neu-blur) * 1.1) var(--shadow-light);
+}
+
+.neu-raised:focus-visible,
+.neu-raised-sm:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* Soft neumorphic pill: raised at rest, sinks (inset shadow) on hover.
+   The wrapper carries the GSAP entrance transform. */
+.soft-surface {
+  border: 1px solid rgba(74, 66, 60, 0.08);
+}
+
+.pop-pill,
+.soft-surface {
+  background: var(--surface);
+  color: var(--text-strong);
+  cursor: pointer;
+  box-shadow: 3px 3px 5px var(--pill-shadow-dark),
+    -3px -3px 5px var(--pill-shadow-light);
+  transition-duration: 0.5s;
+}
+
+.pop-pill {
+  border-radius: 10em;
+  font-weight: 600;
+  padding: 0.8em 1.8em;
+}
+
+.pop-pill:hover,
+.pop-pill:active,
+.soft-surface:hover,
+.soft-surface:active {
+  box-shadow: inset 3px 3px 5px var(--pill-shadow-dark),
+    inset -3px -3px 5px var(--pill-shadow-light);
+}
+
+.perspective-container {
+  perspective: 1400px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+/* Pre-hide entrance targets via stylesheet (no FOUC) without blocking the
+   LCP photo, which stays visible and only transform-animates on entrance. */
+[data-hero-bg-blob],
+[data-hero-photo],
+[data-hero-title-line],
+[data-hero-subtitle],
+[data-hero-nav],
+[data-hero-contact] {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
