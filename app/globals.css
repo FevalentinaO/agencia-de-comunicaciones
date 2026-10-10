@@ -104,7 +104,8 @@ body {
 .pop-pill:hover,
 .pop-pill:active,
 .soft-surface:hover,
-.soft-surface:active {
+.soft-surface:active,
+.soft-surface[aria-pressed="true"] {
   box-shadow: inset 3px 3px 5px var(--pill-shadow-dark),
     inset -3px -3px 5px var(--pill-shadow-light);
 }

@@ -2,6 +2,7 @@ import About from "@/components/About";
 import AnimatedPage from "@/components/AnimatedPage";
 import BackgroundBlobs from "@/components/BackgroundBlobs";
 import ContactBar from "@/components/ContactBar";
+import Galerias from "@/components/Galerias";
 import Hero from "@/components/Hero";
 import Nav from "@/components/Nav";
 
@@ -13,6 +14,7 @@ export default function Home() {
         <Nav />
         <Hero />
         <About />
+        <Galerias />
         <ContactBar />
       </AnimatedPage>
     </main>
