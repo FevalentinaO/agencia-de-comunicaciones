@@ -25,6 +25,7 @@ export default function AnimatedPage({ children }: { children: ReactNode }) {
       const titleLines = root.querySelectorAll<HTMLElement>(
         "[data-hero-title-line]"
       );
+      const title = root.querySelector<HTMLElement>("[data-hero-title]");
       const subtitle = root.querySelector<HTMLElement>("[data-hero-subtitle]");
       const nav = root.querySelector<HTMLElement>("[data-hero-nav]");
       const contact = root.querySelector<HTMLElement>("[data-hero-contact]");
@@ -35,13 +36,13 @@ export default function AnimatedPage({ children }: { children: ReactNode }) {
           y: 0,
         });
         gsap.set(photo, { autoAlpha: 1 });
-        gsap.set(titleLines, { opacity: 1 });
+        gsap.set([title, titleLines], { autoAlpha: 1, opacity: 1 });
         return;
       }
 
       // Text reveal from bottom: each title line rises out of its own mask
       // (the overflow-hidden wrapper in Hero.tsx); the rest fades in softly.
-      const fades = [...bgBlobs, photo].filter(Boolean) as HTMLElement[];
+      const fades = [...bgBlobs, photo, title].filter(Boolean) as HTMLElement[];
       const rises = [subtitle, nav, contact].filter(Boolean) as HTMLElement[];
       const animated = [...fades, ...titleLines, ...rises];
 

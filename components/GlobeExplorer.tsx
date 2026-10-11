@@ -5,7 +5,7 @@ import gsap from "gsap";
 import { geoDistance, geoGraticule10, geoOrthographic, geoPath } from "d3-geo";
 import { feature } from "topojson-client";
 import type { Topology } from "topojson-specification";
-import ImageGallery from "@/components/ui/image-gallery";
+import GalleryDialog from "@/components/GalleryDialog";
 import { PINS, type Pin } from "@/lib/galerias";
 
 type Land = ReturnType<typeof feature>;
@@ -15,7 +15,6 @@ const INK = "74,66,60";
 export default function GlobeExplorer() {
   const wrapRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const panelRef = useRef<HTMLDivElement>(null);
   const pinRefs = useRef<Record<string, HTMLButtonElement | null>>({});
 
   // d3 rotate([lon, lat]): the globe is centered on (-lon, -lat).
@@ -166,21 +165,6 @@ export default function GlobeExplorer() {
 
   useEffect(() => () => void tween.current?.kill(), []);
 
-  useEffect(() => {
-    if (!open) return;
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const timer = window.setTimeout(() => {
-      panelRef.current?.scrollIntoView({
-        behavior: reduce ? "auto" : "smooth",
-        block: "start",
-      });
-      panelRef.current
-        ?.querySelector<HTMLElement>("[data-gallery-title]")
-        ?.focus({ preventScroll: true });
-    }, 450);
-    return () => window.clearTimeout(timer);
-  }, [open]);
-
   const selectPin = useCallback((pin: Pin) => {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     tween.current?.kill();
@@ -283,25 +267,7 @@ export default function GlobeExplorer() {
         ))}
       </div>
 
-      <div
-        ref={panelRef}
-        inert={!open}
-        className={`grid w-full scroll-mt-24 transition-[grid-template-rows,opacity] duration-700 ease-out ${
-          open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
-        }`}
-      >
-        <div className="overflow-hidden">
-          {shown && (
-            <ImageGallery
-              key={shown.id}
-              title={shown.name}
-              description={shown.description}
-              images={shown.images}
-              onClose={closeGallery}
-            />
-          )}
-        </div>
-      </div>
+      <GalleryDialog pin={shown} open={open} onClose={closeGallery} />
     </div>
   );
 }

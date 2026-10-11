@@ -31,6 +31,83 @@
 html {
   color-scheme: light;
   scroll-behavior: smooth;
+  scrollbar-gutter: stable;
+}
+
+html:has(dialog[open]) {
+  overflow: hidden;
+}
+
+/* Slow sideways drift for the hero wave layers. */
+.wave-drift-1,
+.wave-drift-2,
+.wave-drift-3 {
+  animation: wave-drift 14s ease-in-out infinite alternate;
+}
+
+.wave-drift-2 {
+  animation-duration: 18s;
+  animation-direction: alternate-reverse;
+}
+
+.wave-drift-3 {
+  animation-duration: 22s;
+}
+
+@keyframes wave-drift {
+  from {
+    transform: translateX(-12px);
+  }
+  to {
+    transform: translateX(14px);
+  }
+}
+
+/* Gallery popup */
+.gallery-dialog {
+  margin: auto;
+  width: min(94vw, 64rem);
+  max-height: 92vh;
+  overflow: auto;
+  border: 0;
+  padding: 0;
+  border-radius: 2.5rem;
+  background: var(--quartz);
+  color: var(--text-strong);
+  box-shadow: 0 30px 80px rgba(40, 50, 70, 0.4);
+}
+
+.gallery-dialog::backdrop {
+  background: rgba(84, 94, 112, 0.5);
+  backdrop-filter: blur(6px);
+}
+
+.gallery-dialog[open] {
+  animation: dialog-in 0.55s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.gallery-dialog[open]::backdrop {
+  animation: dialog-fade 0.4s ease-out;
+}
+
+@keyframes dialog-in {
+  from {
+    opacity: 0;
+    transform: translateY(32px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes dialog-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 body {
@@ -87,6 +164,7 @@ body {
 }
 
 .pop-pill,
+.pop-card,
 .soft-surface {
   background: var(--surface);
   color: var(--text-strong);
@@ -116,6 +194,12 @@ body {
   }
 }
 
+.pop-card {
+  border-radius: 2.25rem;
+  padding: 1.1rem 2.25rem;
+  cursor: default;
+}
+
 .pop-pill {
   border-radius: 10em;
   font-weight: 600;
@@ -124,6 +208,7 @@ body {
 
 .pop-pill:hover,
 .pop-pill:active,
+.pop-card:hover,
 .soft-surface:hover,
 .soft-surface:active,
 .soft-surface[aria-pressed="true"] {
@@ -143,6 +228,7 @@ body {
    LCP photo, which stays visible and only transform-animates on entrance. */
 [data-hero-bg-blob],
 [data-hero-photo],
+[data-hero-title],
 [data-hero-title-line],
 [data-hero-subtitle],
 [data-hero-nav],

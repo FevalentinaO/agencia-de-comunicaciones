@@ -33,7 +33,7 @@ export default function ImageGallery({
             {title}
           </h3>
           {description && (
-            <p className="mt-2 text-sm text-(--text)">{description}</p>
+            <p className="mt-2 text-sm text-(--text-strong)">{description}</p>
           )}
         </div>
 

@@ -1,13 +1,16 @@
 import OrganicFrame from "./OrganicFrame";
+import WaveSide from "./WaveSide";
 
 const TITLE_LINES = ["HAZ NOTICIA", "TU MARCA"];
 
 export default function Hero() {
   return (
     <section
+      id="portafolio"
       data-hero-section
-      className="perspective-container relative flex min-h-[78vh] items-center pt-20"
+      className="perspective-container relative flex min-h-[78vh] items-center px-4 pt-20 sm:px-6"
     >
+      <WaveSide />
       <div
         data-hero-scroll-tilt
         className="preserve-3d mx-auto flex w-full max-w-5xl flex-col items-center gap-10 px-4 py-10 lg:flex-row lg:items-center lg:justify-start lg:gap-14"
@@ -17,7 +20,7 @@ export default function Hero() {
         <div className="flex max-w-xl flex-col items-center gap-6 text-center lg:items-start lg:text-left">
           <h1
             data-hero-title
-            className="font-(family-name:--font-display) text-3xl leading-[1.1] font-medium tracking-wide text-(--text-strong) uppercase sm:text-4xl lg:text-5xl"
+            className="pop-card font-(family-name:--font-display) text-2xl leading-[1.1] font-medium tracking-wide text-(--text-strong) uppercase sm:text-3xl lg:text-4xl"
           >
             {TITLE_LINES.map((line) => (
               <span key={line} className="block overflow-hidden whitespace-nowrap">
