@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
 import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -18,6 +21,10 @@ export default function ImageGallery({
   onClose,
   className,
 }: ImageGalleryProps) {
+  // Tap/click (or Enter/Space) pins one photo open; on desktop hover still
+  // previews while nothing is pinned.
+  const [active, setActive] = useState<number | null>(null);
+
   return (
     <section
       aria-label={`Galería de ${title}`}
@@ -50,11 +57,25 @@ export default function ImageGallery({
       </div>
 
       <div className="mt-8 flex h-[320px] w-full max-w-5xl items-center gap-2 px-4 sm:h-[400px]">
-        {images.map((image) => (
+        {images.map((image, index) => (
           <div
             key={image.src}
+            role="button"
             tabIndex={0}
-            className="group relative h-full w-14 flex-grow overflow-hidden rounded-lg transition-all duration-500 outline-none hover:w-full focus-visible:w-full focus-visible:ring-2 focus-visible:ring-(--accent) sm:w-56"
+            aria-pressed={active === index}
+            aria-label={`Ampliar: ${image.alt}`}
+            onClick={() => setActive(active === index ? null : index)}
+            onKeyDown={(event) => {
+              if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                setActive(active === index ? null : index);
+              }
+            }}
+            className={cn(
+              "group relative h-full w-14 flex-grow cursor-pointer overflow-hidden rounded-lg transition-all duration-500 outline-none focus-visible:ring-2 focus-visible:ring-(--accent) sm:w-56",
+              active === index && "w-full",
+              active === null && "hover:w-full"
+            )}
           >
             <Image
               src={image.src}

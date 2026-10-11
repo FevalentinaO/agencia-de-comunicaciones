@@ -1,4 +1,5 @@
 import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 import RevealOnScroll from "./RevealOnScroll";
 
 const PEOPLE = [
@@ -43,13 +44,13 @@ export default function About() {
               <p>Menos ruido, más propósito.</p>
             </div>
 
-            <a
-              href="#contacto"
+            <Link
+              href="/contacto"
               className="pop-pill inline-flex items-center gap-3 text-sm tracking-wide focus-visible:outline-2 focus-visible:outline-(--accent) focus-visible:outline-offset-2"
             >
               Cuéntanos tu idea
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
-            </a>
+            </Link>
           </div>
 
           <div className="flex flex-col gap-6">

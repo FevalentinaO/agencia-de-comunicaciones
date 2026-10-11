@@ -246,3 +246,21 @@ body {
     scroll-behavior: auto !important;
   }
 }
+
+/* Focus on form fields and pill buttons: pressed-in look with a soft grey
+   halo instead of a dark outline. */
+.neu-inset:focus,
+.neu-inset:focus-visible {
+  outline: none;
+  box-shadow: inset 6px 6px 10px var(--pill-shadow-dark),
+    inset -6px -6px 10px var(--pill-shadow-light),
+    0 0 0 3px rgba(154, 163, 178, 0.35);
+}
+
+.pop-pill:focus-visible,
+.soft-surface:focus-visible {
+  outline: none;
+  box-shadow: inset 3px 3px 5px var(--pill-shadow-dark),
+    inset -3px -3px 5px var(--pill-shadow-light),
+    0 0 0 3px rgba(154, 163, 178, 0.35);
+}
