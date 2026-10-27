@@ -51,12 +51,12 @@ export default function Hero() {
           </div>
         </div>
 
-        <figure className="mx-auto w-full max-w-md">
+        <figure className="mx-auto w-full max-w-[17rem] sm:max-w-xs lg:max-w-sm">
           <div className="relative">
             {/* Gold arc echoing the seal, offset from the frame */}
             <div
               aria-hidden="true"
-              className="absolute -inset-3 translate-x-3 -translate-y-3 rounded-t-full border border-(--luz) border-b-0"
+              className="absolute -inset-2 translate-x-2 -translate-y-2 rounded-t-full border border-(--luz) border-b-0"
             />
             <div className="relative aspect-[4/5] overflow-hidden rounded-t-full bg-[#dedbe6]">
               <Image
@@ -65,7 +65,7 @@ export default function Hero() {
                 fill
                 priority
                 fetchPriority="high"
-                sizes="(min-width: 1024px) 28rem, 90vw"
+                sizes="(min-width: 1024px) 24rem, 20rem"
                 className="object-contain object-bottom"
               />
             </div>

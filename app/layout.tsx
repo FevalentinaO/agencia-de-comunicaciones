@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Lora } from "next/font/google";
 import Footer from "@/components/Footer";
+import Loader from "@/components/Loader";
 import Nav from "@/components/Nav";
 import "./globals.css";
 
@@ -41,6 +42,7 @@ export default function RootLayout({
   return (
     <html lang="es" className={`${display.variable} ${sans.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col">
+        <Loader />
         <Nav />
         <main className="flex-1">{children}</main>
         <Footer />
