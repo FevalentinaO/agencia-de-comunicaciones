@@ -1,73 +1,57 @@
-# Caro & Diana — AGENCIA DE COMUNICACIONES
+# Talitha · Comunicación Estratégica
 
-Inicio (hero) de la web de la agencia. Next.js (App Router) + TypeScript + Tailwind v4 + GSAP.
+Sitio web de Talitha, construido sobre su manual de identidad v1.0.
+Next.js (App Router) + TypeScript + Tailwind v4.
 
 ## Correr el proyecto
 
 ```bash
 npm install
-npm run dev
+npm run dev      # http://localhost:3000
+npm run build && npm start
 ```
 
-Abre [http://localhost:3000](http://localhost:3000).
+## Identidad aplicada
 
-```bash
-npm run build && npm start   # build de producción
-```
+- **Color** (tokens en `app/globals.css`): azul medianoche `#1E2440` (base y texto),
+  primera luz `#C8963A` (acento: trazo, sello, números grandes; nunca superficies de
+  texto), bruma `#B5B3C3` (filetes), papel marfil `#F4EFE6` (fondo). Para texto
+  pequeño dorado se usa `#7D5A1C` (contraste AA sobre marfil).
+- **Tipografía**: Cormorant Garamond (regular e itálica, sin negritas) para titulares
+  y logotipo; Lora para párrafos y para el descriptor en versales espaciadas.
+- **Logotipo**: `components/Logo.tsx` reproduce el sello (arco, trazo largo, curva y
+  dos gotas) con la construcción del manual. Versión horizontal, claro/oscuro.
+- **Reglas de uso**: sin sombras ni efectos sobre el logo, terminaciones redondas,
+  filete en bruma. Botones planos con filete; sin neumorfismo.
+- **Voz**: frases cortas, sin fórmulas vacías ni lenguaje corporativo.
 
-## Configurar Google Sheets + Gmail (formulario de contacto)
+## Páginas
 
-1. **Service account de Google Cloud:**
-   - Crea un proyecto en [Google Cloud Console](https://console.cloud.google.com/), habilita la **Google Sheets API**.
-   - Crea una *service account*, genera una clave JSON.
-   - Comparte tu Google Sheet (modo edición) con el correo de la service account (`xxx@xxx.iam.gserviceaccount.com`).
-   - Copia a `.env.local`: `GOOGLE_SERVICE_ACCOUNT_EMAIL`, `GOOGLE_PRIVATE_KEY` (el `private_key` del JSON, con los `\n` literales), `GOOGLE_SHEET_ID` (el ID en la URL de la hoja).
+| Ruta | Contenido |
+|---|---|
+| `/` (Home) | Hero, esencia y pilares, galerías con globo interactivo, llamada a contacto |
+| `/trayectoria` | Tres propuestas de galería (parallax 3D, bento, WebGL con scroll) |
+| `/servicios` | Pendiente |
+| `/contacto` | Formulario conectado a Google Sheets y Gmail |
 
-2. **Gmail (OAuth2):**
-   - Se eligió **Nodemailer + OAuth2 sobre Gmail** en vez de llamar la Gmail API directo: menos código, misma seguridad, y Nodemailer maneja el armado MIME.
-   - Crea credenciales OAuth2 (tipo *Desktop app*) en Cloud Console, habilita la Gmail API.
-   - Genera un `refresh_token` una vez (OAuth Playground o un script local) autorizando el scope `https://mail.google.com/`.
-   - Completa `GMAIL_USER`, `GMAIL_CLIENT_ID`, `GMAIL_CLIENT_SECRET`, `GMAIL_REFRESH_TOKEN`, `CONTACT_TO_EMAIL`.
+## Contenido editable
 
-Copia `.env.example` a `.env.local` y rellena los valores. Nunca subas `.env.local`.
+- Pines y fotos del globo: `lib/galerias.ts` y `public/images/galerias/<pin>/`.
+- Fotos de Trayectoria: `lib/trayectoria.ts` y `public/images/trayectoria/`.
 
-## Decisiones de diseño donde la referencia era ambigua
+## Formulario de contacto
 
-- **Menú duplicado:** la referencia repite la nav arriba y en medio del hero. Se dejó **una sola nav**, flotante y sticky — la repetición es ruido.
-- **"Directores" → "Directoras":** corregido a femenino, como pide el prompt.
-- **Logos de Google:** no se usan como marca. El bloque de contacto usa iconos propios (sobre, hoja de cálculo) con el mismo lenguaje neumórfico, sin asociar la UI a Google.
-- **Botones "Animaciones/Fotos":** retirados del hero por decisión de diseño; el portafolio se accede desde la nav.
-- **Foto:** tarjeta neumórfica redondeada más baja que la imagen, para que las cabezas sobresalgan del marco. Detrás, dos anillos de línea de 1px anclados a la izquierda, uno con un punto en órbita lenta. Sin `clip-path` (el `box-shadow` sigue la caja rectangular, no el recorte, y ensuciaba la silueta).
-
-## Rendimiento
-
-Lighthouse (mobile, build de producción, local): **Performance 96 · Accessibility 100 · Best Practices 100 · SEO 100.** CLS 0, TBT ~130ms.
-
-Puntos clave para mantenerlo así:
-- La foto del hero (candidata a LCP) **nunca anima opacidad** — permanece visible desde el primer paint y solo rota/traslada en 3D al entrar. Ocultarla con `opacity`/`visibility` hasta que GSAP corra agrega cientos de ms al LCP real.
-- Los demás elementos de entrada (blobs, líneas de título, nav, quicklinks, contacto) se ocultan por **stylesheet** (`opacity:0` en `globals.css`), no por una clase que tape toda la página — así no se retrasa el pintado del LCP mientras se evita el flash de contenido sin animar.
-- Formas orgánicas y sombras: CSS/SVG, cero PNG decorativo.
-- `next/font` con `display: swap`, subset `latin`.
-- `fetchPriority="high"` explícito en la imagen del hero (en Next 16 ya no se infiere solo de `priority`).
-
-## Estructura
+`app/api/contact/route.ts`: validación con Zod, honeypot, límite por IP,
+`Promise.allSettled` hacia Google Sheets (service account) y Gmail (OAuth2 con
+Nodemailer). Variables en `.env.example`:
 
 ```
-app/
-  layout.tsx          # fuentes, metadata
-  page.tsx             # ensambla Nav + Hero + ContactBar
-  globals.css          # tokens neumórficos, utilidades .neu-*, anillos
-  api/contact/route.ts # Zod + Sheets + Gmail + rate limit + honeypot
-components/
-  AnimatedPage.tsx     # "use client": timeline GSAP + parallax de mouse
-  Nav.tsx
-  Hero.tsx
-  OrganicFrame.tsx     # foto pop-out + anillos de línea
-  ContactBar.tsx       # "use client": formulario
-  BackgroundBlobs.tsx
-lib/
-  validation.ts         # Zod
-  google.ts             # clientes Sheets/Gmail
-  rate-limit.ts         # limitador en memoria por IP (por instancia; para
-                          # multi-instancia real usar Redis o similar)
+GOOGLE_SERVICE_ACCOUNT_EMAIL=
+GOOGLE_PRIVATE_KEY=
+GOOGLE_SHEET_ID=
+GMAIL_USER=
+GMAIL_CLIENT_ID=
+GMAIL_CLIENT_SECRET=
+GMAIL_REFRESH_TOKEN=
+CONTACT_TO_EMAIL=
 ```

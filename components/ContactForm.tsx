@@ -4,14 +4,7 @@ import { useRef, useState } from "react";
 
 type Status = "idle" | "sending" | "success" | "error";
 
-const fieldClass =
-  "neu-inset w-full rounded-2xl px-5 py-3.5 text-sm text-(--text-strong) placeholder:text-(--text)";
-
-export default function ContactForm({
-  showHeading = true,
-}: {
-  showHeading?: boolean;
-}) {
+export default function ContactForm() {
   const [status, setStatus] = useState<Status>("idle");
   const [errorMsg, setErrorMsg] = useState("");
   const formRef = useRef<HTMLFormElement>(null);
@@ -45,24 +38,9 @@ export default function ContactForm({
     <form
       ref={formRef}
       onSubmit={handleSubmit}
-      aria-labelledby={showHeading ? "contacto-heading" : undefined}
-      aria-label={showHeading ? undefined : "Formulario de contacto"}
-      className="neu-raised flex flex-col gap-5 rounded-[2rem] p-6 sm:p-10"
+      aria-label="Formulario de contacto"
+      className="flex flex-col gap-7 border border-(--bruma) bg-(--surface) p-7 sm:p-10"
     >
-      {showHeading && (
-        <div className="flex flex-col gap-2 text-center">
-          <h2
-            id="contacto-heading"
-            className="font-(family-name:--font-display) text-3xl font-medium tracking-wide text-(--text-strong) sm:text-4xl"
-          >
-            Hablemos
-          </h2>
-          <p className="text-base text-(--text)">
-            Cuéntanos tu idea y te respondemos pronto.
-          </p>
-        </div>
-      )}
-
       {/* Honeypot: hidden from real users, bots tend to fill every field */}
       <input
         type="text"
@@ -73,43 +51,49 @@ export default function ContactForm({
         aria-hidden="true"
       />
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <input
-          type="text"
-          name="name"
-          required
-          minLength={2}
-          autoComplete="name"
-          aria-label="Tu nombre"
-          placeholder="Tu nombre"
-          className={fieldClass}
-        />
-        <input
-          type="email"
-          name="email"
-          required
-          autoComplete="email"
-          aria-label="Tu correo"
-          placeholder="Tu correo"
-          className={fieldClass}
-        />
+      <div className="grid grid-cols-1 gap-7 sm:grid-cols-2">
+        <label className="flex flex-col gap-1">
+          <span className="eyebrow">Nombre</span>
+          <input
+            type="text"
+            name="name"
+            required
+            minLength={2}
+            autoComplete="name"
+            placeholder="Tu nombre"
+            className="field"
+          />
+        </label>
+        <label className="flex flex-col gap-1">
+          <span className="eyebrow">Correo</span>
+          <input
+            type="email"
+            name="email"
+            required
+            autoComplete="email"
+            placeholder="Tu correo"
+            className="field"
+          />
+        </label>
       </div>
 
-      <textarea
-        name="message"
-        required
-        minLength={5}
-        rows={5}
-        aria-label="Tu idea"
-        placeholder="Tu idea…"
-        className={`${fieldClass} resize-none`}
-      />
+      <label className="flex flex-col gap-1">
+        <span className="eyebrow">Tu idea</span>
+        <textarea
+          name="message"
+          required
+          minLength={5}
+          rows={5}
+          placeholder="Cuéntanos qué quieres decir y a quién."
+          className="field resize-none"
+        />
+      </label>
 
-      <div className="flex flex-col items-center gap-3">
+      <div className="flex flex-col items-start gap-4">
         <button
           type="submit"
           disabled={status === "sending"}
-          className="pop-pill text-sm tracking-wide disabled:opacity-60"
+          className="btn btn-primary"
         >
           {status === "sending" ? "Enviando…" : "Enviar mensaje"}
         </button>
@@ -117,7 +101,7 @@ export default function ContactForm({
         <p
           role="status"
           aria-live="polite"
-          className="min-h-[1.25rem] text-sm text-(--text-strong)"
+          className="min-h-[1.25rem] text-[0.9375rem] text-(--azul)"
         >
           {status === "success" && "Recibido. Te escribimos pronto."}
           {status === "error" && (errorMsg || "Algo falló. Intenta de nuevo.")}

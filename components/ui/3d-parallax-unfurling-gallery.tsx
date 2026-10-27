@@ -14,7 +14,7 @@ import type { GalleryImage } from "@/lib/galerias";
 
 function ImageCard({ image }: { image: GalleryImage }) {
   return (
-    <div className="relative h-[200px] w-full flex-shrink-0 overflow-hidden rounded-2xl bg-[#eef0f4] shadow-[0_8px_24px_rgba(50,60,80,0.25)] transition-transform duration-300 will-change-transform hover:scale-[1.02] sm:h-[300px] md:h-[400px]">
+    <div className="relative h-[200px] w-full flex-shrink-0 overflow-hidden bg-[#dedbe6] transition-transform duration-300 will-change-transform hover:scale-[1.02] sm:h-[300px] md:h-[400px]">
       <Image
         src={image.src}
         alt={image.alt}
@@ -87,7 +87,7 @@ export default function ParallaxUnfurlingGallery({
     <section
       ref={containerRef}
       aria-label="Galería de trayectoria"
-      className={cn("relative h-[420vh] w-full bg-white", className)}
+      className={cn("relative h-[420vh] w-full bg-(--marfil)", className)}
     >
       <div className="sticky top-0 flex h-screen w-full items-center justify-center overflow-hidden">
         <motion.div
@@ -96,15 +96,15 @@ export default function ParallaxUnfurlingGallery({
             height: bannerHeight,
             borderRadius: bannerRadius,
           }}
-          className="relative mx-auto flex max-w-[1920px] items-center justify-center overflow-hidden bg-white shadow-[0_20px_60px_rgba(50,60,80,0.12)] will-change-transform"
+          className="relative mx-auto flex max-w-[1920px] items-center justify-center overflow-hidden bg-(--marfil) border border-(--bruma) will-change-transform"
         >
           <div
             className="pointer-events-none absolute inset-0 flex items-center justify-center"
             style={{ perspective: "1000px" }}
           >
             {/* Soft edge fade into the grey band */}
-            <div className="absolute inset-0 z-20 shadow-[inset_0_80px_120px_-50px_rgba(255,255,255,1),inset_0_-80px_120px_-50px_rgba(255,255,255,1)]" />
-            <div className="absolute inset-0 z-20 shadow-[inset_120px_0_120px_-50px_rgba(255,255,255,1),inset_-120px_0_120px_-50px_rgba(255,255,255,1)]" />
+            <div className="absolute inset-0 z-20 shadow-[inset_0_80px_120px_-50px_rgba(244,239,230,1),inset_0_-80px_120px_-50px_rgba(244,239,230,1)]" />
+            <div className="absolute inset-0 z-20 shadow-[inset_120px_0_120px_-50px_rgba(244,239,230,1),inset_-120px_0_120px_-50px_rgba(244,239,230,1)]" />
 
             <motion.div
               style={{

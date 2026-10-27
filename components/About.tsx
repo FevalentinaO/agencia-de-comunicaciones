@@ -1,107 +1,98 @@
-import { ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+import { Seal } from "./Logo";
 import RevealOnScroll from "./RevealOnScroll";
 
-const PEOPLE = [
-  { initial: "C", name: "Caro" },
-  { initial: "D", name: "Diana" },
+const ATRIBUTOS = [
+  "Inteligente",
+  "Confiable",
+  "Sofisticada",
+  "Creativa",
+  "Actual",
+  "Humana",
+  "Exigente",
+  "Segura",
 ];
 
-const STEPS = [
-  "Definimos tu mensaje",
-  "Lo llevamos a los canales adecuados",
-  "Cuidamos cómo se percibe",
+const PILARES = [
+  { n: "01", name: "Criterio", text: "Pensamos antes de actuar. Analizamos y entendemos antes de decidir qué decir, cómo y cuándo." },
+  { n: "02", name: "Credibilidad", text: "Construimos confianza. Información rigurosa, clara y responsable." },
+  { n: "03", name: "Excelencia", text: "Bien hecho, siempre. En el contenido, en la ejecución y en el detalle." },
+  { n: "04", name: "Creatividad y curiosidad", text: "Que una idea importe. Observar, preguntar y encontrar el ángulo correcto." },
+  { n: "05", name: "Verdad y coherencia", text: "Lo que decimos se sostiene. Coherencia entre lo que se dice, se hace y se representa." },
 ];
 
 export default function About() {
   return (
     <section
       id="quienes-somos"
-      aria-labelledby="quienes-somos-heading"
-      className="mx-auto w-full max-w-5xl scroll-mt-28 px-4 py-16"
+      aria-labelledby="quienes-somos-titulo"
+      className="scroll-mt-24 border-t border-(--bruma)"
     >
-      <RevealOnScroll>
-        <div className="neu-raised grid gap-10 rounded-[2.5rem] p-8 sm:p-12 md:grid-cols-[1.1fr_1fr] md:items-center md:gap-14">
-          <div className="flex flex-col items-start gap-6">
-            <p className="text-sm font-medium tracking-[0.3em] text-(--text) uppercase">
-              Quiénes somos
-            </p>
+      <div className="mx-auto w-full max-w-6xl px-5 py-24 sm:px-8 lg:py-32">
+        <RevealOnScroll>
+          <div className="flex items-center gap-4">
+            <Seal className="h-7 w-auto" />
+            <p className="eyebrow">Nuestra esencia</p>
+          </div>
 
+          <div className="mt-12 grid gap-12 lg:grid-cols-[1.4fr_1fr] lg:gap-20">
             <h2
-              id="quienes-somos-heading"
-              className="font-(family-name:--font-display) text-4xl leading-[1.1] font-medium tracking-wide text-(--text-strong) sm:text-5xl"
+              id="quienes-somos-titulo"
+              className="display text-4xl leading-[1.1] sm:text-5xl lg:text-6xl"
             >
-              Un poquito de nosotras
+              Criterio con personalidad, creatividad con propósito y excelencia en{" "}
+              <em className="italic">cada detalle.</em>
             </h2>
 
-            <div className="flex flex-col gap-3 text-base leading-relaxed text-(--text)">
-              <p>
-                Somos Caro y Diana, directoras de una agencia de
-                comunicaciones. Con una trayectoria enorme en el oficio,
-                ayudamos a marcas y personas a decir lo que quieren decir, con
-                claridad y en el momento justo.
+            <div className="flex flex-col items-start justify-end gap-6 lg:pb-3">
+              <p className="text-lg leading-relaxed text-(--text)">
+                Entendemos que cada palabra construye reputación. Somos Caro y
+                Diana, socias directoras: una voz propia, atenta a lo que cambia
+                y a las personas detrás de cada organización.
               </p>
-              <p>Menos ruido, más propósito.</p>
+              <Link href="/contacto" className="btn btn-primary">
+                Cuéntanos tu idea
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </Link>
             </div>
-
-            <Link
-              href="/contacto"
-              className="pop-pill inline-flex items-center gap-3 text-sm tracking-wide focus-visible:outline-2 focus-visible:outline-(--accent) focus-visible:outline-offset-2"
-            >
-              Cuéntanos tu idea
-              <ArrowRight className="h-4 w-4" aria-hidden="true" />
-            </Link>
           </div>
+        </RevealOnScroll>
 
-          <div className="flex flex-col gap-6">
-            <ul className="grid grid-cols-2 gap-4">
-              {PEOPLE.map((person) => (
-                <li
-                  key={person.name}
-                  className="neu-raised-sm flex flex-col items-center gap-3 rounded-3xl px-4 py-6 text-center"
+        <RevealOnScroll className="mt-24">
+          <h3 className="eyebrow">Pilares</h3>
+          <ol className="mt-8 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-5">
+            {PILARES.map((pilar) => (
+              <li key={pilar.n} className="border-t border-(--azul) pt-5">
+                <span
+                  aria-hidden="true"
+                  className="display block text-5xl text-(--luz)"
                 >
-                  <span
-                    aria-hidden="true"
-                    className="neu-inset flex h-14 w-14 items-center justify-center rounded-full font-(family-name:--font-display) text-2xl font-medium text-(--text-strong)"
-                  >
-                    {person.initial}
-                  </span>
-                  <span className="flex flex-col gap-1">
-                    <span className="font-(family-name:--font-display) text-xl font-medium text-(--text-strong)">
-                      {person.name}
-                    </span>
-                    <span className="text-sm tracking-wide text-(--text)">
-                      Directora de Agencia
-                    </span>
-                  </span>
-                </li>
-              ))}
-            </ul>
+                  {pilar.n}
+                </span>
+                <h4 className="display mt-4 text-2xl leading-tight">{pilar.name}</h4>
+                <p className="mt-3 text-[0.9375rem] leading-relaxed text-(--text)">
+                  {pilar.text}
+                </p>
+              </li>
+            ))}
+          </ol>
+        </RevealOnScroll>
 
-            <div className="flex flex-col gap-4">
-              <h3 className="text-sm font-medium tracking-[0.3em] text-(--text) uppercase">
-                Cómo trabajamos
-              </h3>
-              <ol className="relative flex flex-col gap-5 before:absolute before:top-4 before:bottom-4 before:left-4 before:w-px before:bg-(--text-strong)/20">
-                {STEPS.map((step, index) => (
-                  <li
-                    key={step}
-                    className="relative flex items-center gap-4 text-sm text-(--text-strong)"
-                  >
-                    <span
-                      aria-hidden="true"
-                      className="neu-raised-sm relative flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm font-medium"
-                    >
-                      {index + 1}
-                    </span>
-                    {step}
-                  </li>
-                ))}
-              </ol>
-            </div>
-          </div>
-        </div>
-      </RevealOnScroll>
+        <RevealOnScroll className="mt-24">
+          <h3 className="eyebrow">Cómo somos</h3>
+          <ul className="mt-6 flex flex-wrap gap-3">
+            {ATRIBUTOS.map((atributo) => (
+              <li
+                key={atributo}
+                className="border border-(--bruma) px-5 py-2 text-[0.9375rem] tracking-wide text-(--azul)"
+              >
+                {atributo}
+              </li>
+            ))}
+          </ul>
+        </RevealOnScroll>
+      </div>
     </section>
   );
 }

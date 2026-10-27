@@ -331,7 +331,7 @@ export default function InfiniteGallery({
       role="group"
       aria-label="Galería 3D de fotografías. Desplázate, arrastra o usa las flechas para avanzar."
       className={cn(
-        "relative h-[calc(100vh-8rem)] min-h-[420px] w-full touch-pan-y overflow-hidden rounded-[2rem] bg-[#eef0f4] outline-none focus-visible:ring-2 focus-visible:ring-(--accent)",
+        "relative h-[calc(100vh-8rem)] min-h-[420px] w-full touch-pan-y overflow-hidden bg-(--surface) border border-(--bruma) outline-none focus-visible:ring-2 focus-visible:ring-(--accent)",
         mode === "webgl" && "cursor-grab active:cursor-grabbing",
         className
       )}
@@ -374,7 +374,7 @@ export default function InfiniteGallery({
         </Canvas>
       )}
       {mode === "webgl" && (
-        <p className="pointer-events-none absolute inset-x-0 bottom-5 text-center text-xs font-medium tracking-[0.2em] text-(--text-strong) uppercase">
+        <p className="pointer-events-none absolute inset-x-0 bottom-5 text-center text-[0.8125rem] tracking-[0.2em] text-(--azul) uppercase">
           Desplázate para avanzar
         </p>
       )}

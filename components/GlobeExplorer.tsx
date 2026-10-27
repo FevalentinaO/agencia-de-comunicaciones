@@ -63,7 +63,7 @@ function buildGeo(topo: Topology, names: Record<string, string>): Geo {
   };
 }
 
-const INK = "74,66,60";
+const INK = "244,239,230";
 const MAX_ZOOM = 10;
 const DETAIL_ZOOM = 2.5;
 const clamp = (value: number, min: number, max: number) =>
@@ -179,8 +179,8 @@ export default function GlobeExplorer() {
         size * 0.35, size * 0.3, size * 0.05,
         size / 2, size / 2, size / 2
       );
-      fill.addColorStop(0, "#f8fafc");
-      fill.addColorStop(1, "#dde3ec");
+      fill.addColorStop(0, "#2d3563");
+      fill.addColorStop(1, "#1e2440");
       ctx.beginPath();
       path(sphere);
       ctx.fillStyle = fill;
@@ -195,21 +195,21 @@ export default function GlobeExplorer() {
       if (geo) {
         ctx.beginPath();
         path(geo.fills);
-        ctx.fillStyle = `rgba(${INK},0.1)`;
+        ctx.fillStyle = `rgba(${INK},0.09)`;
         ctx.fill();
 
         // Country borders: thin dashed line, distinct from the solid coast.
         ctx.beginPath();
         path(geo.borders);
         ctx.setLineDash([3, 2.5]);
-        ctx.strokeStyle = `rgba(${INK},0.55)`;
+        ctx.strokeStyle = `rgba(${INK},0.5)`;
         ctx.lineWidth = 0.7;
         ctx.stroke();
         ctx.setLineDash([]);
 
         ctx.beginPath();
         path(geo.coast);
-        ctx.strokeStyle = `rgba(${INK},0.6)`;
+        ctx.strokeStyle = `rgba(${INK},0.75)`;
         ctx.lineWidth = 0.9;
         ctx.stroke();
 
@@ -232,7 +232,7 @@ export default function GlobeExplorer() {
           const fontSize = clamp(Math.sqrt(areaPx) / 10, 8, 12);
           ctx.font = `500 ${fontSize}px ${fontFamily}`;
           if (ctx.measureText(label.name).width > Math.sqrt(areaPx) * 1.5) continue;
-          ctx.fillStyle = `rgba(${INK},${(0.62 * (1 - dist / 1.2)).toFixed(3)})`;
+          ctx.fillStyle = `rgba(${INK},${(0.7 * (1 - dist / 1.2)).toFixed(3)})`;
           // Nudge the name below a pin that would sit on top of it.
           const covered = pinPoints.some(
             (p) => Math.hypot(p[0] - point[0], p[1] - point[1]) < 16
@@ -243,7 +243,7 @@ export default function GlobeExplorer() {
 
       ctx.beginPath();
       path(sphere);
-      ctx.strokeStyle = `rgba(${INK},0.18)`;
+      ctx.strokeStyle = `rgba(200,150,58,0.7)`;
       ctx.lineWidth = 1;
       ctx.stroke();
 
@@ -505,7 +505,7 @@ export default function GlobeExplorer() {
         onPointerMove={onPointerMove}
         onPointerUp={(event) => endDrag(event, true)}
         onPointerCancel={(event) => endDrag(event, false)}
-        className={`neu-raised relative aspect-square w-full max-w-[520px] cursor-grab rounded-full select-none active:cursor-grabbing ${
+        className={`relative aspect-square w-full max-w-[520px] cursor-grab rounded-full border border-(--bruma)/40 select-none active:cursor-grabbing ${
           zoomLevel > 1.05 ? "touch-none" : "touch-pan-y"
         }`}
       >
@@ -525,7 +525,7 @@ export default function GlobeExplorer() {
             aria-label="Acercar el mapa"
             disabled={zoomLevel >= MAX_ZOOM - 0.01}
             onClick={() => zoomBy(1.8)}
-            className="soft-surface flex h-10 w-10 items-center justify-center rounded-full text-(--text-strong) disabled:opacity-40 focus-visible:outline-2 focus-visible:outline-(--accent) focus-visible:outline-offset-2"
+            className="btn btn-light h-10 w-10 p-0!"
           >
             <Plus className="h-4 w-4" aria-hidden="true" />
           </button>
@@ -534,7 +534,7 @@ export default function GlobeExplorer() {
             aria-label="Alejar el mapa"
             disabled={zoomLevel <= 1.01}
             onClick={() => zoomBy(1 / 1.8)}
-            className="soft-surface flex h-10 w-10 items-center justify-center rounded-full text-(--text-strong) disabled:opacity-40 focus-visible:outline-2 focus-visible:outline-(--accent) focus-visible:outline-offset-2"
+            className="btn btn-light h-10 w-10 p-0!"
           >
             <Minus className="h-4 w-4" aria-hidden="true" />
           </button>
@@ -559,15 +559,15 @@ export default function GlobeExplorer() {
               <span
                 aria-hidden="true"
                 className={`pin-pulse absolute inset-1 rounded-full ${
-                  selected ? "bg-(--accent)/40" : "bg-(--text-strong)/25"
+                  selected ? "bg-(--luz)/60" : "bg-(--luz)/35"
                 }`}
               />
               <span
-                className={`relative block h-3.5 w-3.5 rounded-full border-2 border-white shadow-[0_2px_6px_rgba(31,42,68,0.45)] transition-transform duration-300 group-hover:scale-125 ${
-                  selected ? "bg-(--accent)" : "bg-(--text-strong)"
+                className={`relative block h-3.5 w-3.5 rounded-full border-2 border-(--marfil) transition-transform duration-300 group-hover:scale-125 ${
+                  selected ? "bg-(--marfil)" : "bg-(--luz)"
                 }`}
               />
-              <span className="pointer-events-none absolute bottom-full mb-1 rounded-full bg-(--quartz) px-3 py-1 text-xs font-medium tracking-wide whitespace-nowrap text-(--text-strong) opacity-0 shadow-[0_2px_8px_rgba(74,66,60,0.18)] transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100">
+              <span className="pointer-events-none absolute bottom-full mb-1 bg-(--marfil) px-3 py-1 text-xs tracking-[0.12em] whitespace-nowrap text-(--azul) uppercase opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100">
                 {pin.name}
               </span>
             </button>
@@ -582,7 +582,7 @@ export default function GlobeExplorer() {
             type="button"
             aria-pressed={pin.id === selectedId}
             onClick={() => selectPin(pin)}
-            className="soft-surface rounded-full px-5 py-2 text-sm font-medium tracking-[0.14em] uppercase focus-visible:outline-2 focus-visible:outline-(--accent) focus-visible:outline-offset-2"
+            className="btn btn-light px-5! py-2.5!"
           >
             {pin.name}
           </button>

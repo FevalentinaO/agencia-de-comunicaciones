@@ -1,9 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import Logo from "./Logo";
 
 const LINKS = [
   { label: "Home", href: "/" },
@@ -13,22 +13,20 @@ const LINKS = [
 ];
 
 const linkClass =
-  "text-sm font-medium tracking-[0.18em] text-(--text-strong) uppercase transition-colors hover:text-(--accent) focus-visible:outline-2 focus-visible:outline-(--accent) focus-visible:outline-offset-4";
-
-const activeClass = "text-(--accent) underline decoration-2 underline-offset-8";
+  "text-[0.8125rem] tracking-[0.2em] uppercase text-(--azul) transition-colors hover:text-(--gold-text)";
 
 export default function Nav() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const menuRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLElement>(null);
   const pathname = usePathname();
 
   useEffect(() => {
     if (!menuOpen) return;
-    const onPointerDown = (e: PointerEvent) => {
-      if (!menuRef.current?.contains(e.target as Node)) setMenuOpen(false);
+    const onPointerDown = (event: PointerEvent) => {
+      if (!headerRef.current?.contains(event.target as Node)) setMenuOpen(false);
     };
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setMenuOpen(false);
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMenuOpen(false);
     };
     document.addEventListener("pointerdown", onPointerDown);
     document.addEventListener("keydown", onKeyDown);
@@ -40,32 +38,15 @@ export default function Nav() {
 
   return (
     <header
-      data-hero-nav
-      className="pointer-events-none fixed inset-x-0 top-4 z-50 flex items-start justify-between px-4 sm:px-6 lg:justify-center"
+      ref={headerRef}
+      className="fixed inset-x-0 top-0 z-50 border-b border-(--bruma) bg-(--marfil)/92 backdrop-blur-md"
     >
-      <div className="flex items-center gap-4">
-        <Link
-          href="/"
-          aria-label="D&C Agencia, inicio"
-          className="soft-surface group pointer-events-auto relative block h-11 w-[5.5rem] shrink-0 overflow-hidden rounded-[1.4rem] focus-visible:outline-2 focus-visible:outline-(--accent) focus-visible:outline-offset-2"
-        >
-          <Image
-            src="/images/logo.jpg"
-            alt="D&C Agencia"
-            fill
-            sizes="88px"
-            className="scale-[0.95] object-cover mix-blend-multiply"
-          />
-          <span
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-0 rounded-[inherit] transition-shadow duration-500 group-hover:shadow-[inset_3px_3px_5px_var(--pill-shadow-dark),inset_-3px_-3px_5px_var(--pill-shadow-light)]"
-          />
+      <div className="mx-auto flex h-[4.5rem] w-full max-w-6xl items-center justify-between px-5 sm:px-8">
+        <Link href="/" aria-label="Talitha, inicio" className="shrink-0">
+          <Logo />
         </Link>
 
-        <nav
-          aria-label="Navegación principal"
-          className="neu-raised pointer-events-auto hidden items-center gap-8 rounded-full px-8 py-4 lg:flex"
-        >
+        <nav aria-label="Navegación principal" className="hidden items-center gap-10 lg:flex">
           {LINKS.map((link) => {
             const current = pathname === link.href;
             return (
@@ -73,69 +54,72 @@ export default function Nav() {
                 key={link.href}
                 href={link.href}
                 aria-current={current ? "page" : undefined}
-                className={`${linkClass} ${current ? activeClass : ""}`}
+                className={`${linkClass} border-b pb-1 ${
+                  current ? "border-(--luz)" : "border-transparent"
+                }`}
               >
                 {link.label}
               </Link>
             );
           })}
         </nav>
-      </div>
 
-      <div ref={menuRef} className="pointer-events-auto relative lg:hidden">
         <button
           type="button"
           aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"}
           aria-expanded={menuOpen}
-          aria-controls="menu-hamburguesa"
+          aria-controls="menu-movil"
           onClick={() => setMenuOpen((open) => !open)}
-          className="soft-surface relative flex h-14 w-14 items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-(--accent) focus-visible:outline-offset-2"
+          className="flex h-11 w-11 items-center justify-center lg:hidden"
         >
-          <span aria-hidden="true" className="relative block h-3.5 w-5 text-(--text-strong)">
+          <span aria-hidden="true" className="relative block h-3.5 w-6 text-(--azul)">
             <span
-              className={`absolute left-0 block h-[2px] w-full rounded-full bg-current transition-all duration-300 ${
-                menuOpen ? "top-1.5 rotate-45" : "top-0"
+              className={`absolute left-0 block h-px w-full bg-current transition-all duration-300 ${
+                menuOpen ? "top-[7px] rotate-45" : "top-0"
               }`}
             />
             <span
-              className={`absolute top-1.5 left-0 block h-[2px] w-full rounded-full bg-current transition-opacity duration-300 ${
+              className={`absolute top-[7px] left-0 block h-px w-full bg-current transition-opacity duration-300 ${
                 menuOpen ? "opacity-0" : "opacity-100"
               }`}
             />
             <span
-              className={`absolute left-0 block h-[2px] w-full rounded-full bg-current transition-all duration-300 ${
-                menuOpen ? "top-1.5 -rotate-45" : "top-3"
+              className={`absolute left-0 block h-px w-full bg-current transition-all duration-300 ${
+                menuOpen ? "top-[7px] -rotate-45" : "top-[14px]"
               }`}
             />
           </span>
         </button>
+      </div>
 
-        <div
-          id="menu-hamburguesa"
-          aria-hidden={!menuOpen}
-          className={`neu-raised absolute top-full right-0 mt-3 flex w-60 flex-col gap-1 rounded-3xl p-3 transition-all duration-300 ${
-            menuOpen
-              ? "visible translate-y-0 opacity-100"
-              : "pointer-events-none invisible -translate-y-2 opacity-0"
-          }`}
-        >
+      <nav
+        id="menu-movil"
+        aria-label="Navegación móvil"
+        aria-hidden={!menuOpen}
+        className={`overflow-hidden border-t border-(--bruma) bg-(--marfil) transition-[max-height,opacity] duration-300 lg:hidden ${
+          menuOpen ? "max-h-80 opacity-100" : "pointer-events-none max-h-0 opacity-0"
+        }`}
+      >
+        <ul className="mx-auto flex max-w-6xl flex-col px-5 py-3 sm:px-8">
           {LINKS.map((link) => {
             const current = pathname === link.href;
             return (
-              <Link
-                key={link.href}
-                href={link.href}
-                tabIndex={menuOpen ? 0 : -1}
-                onClick={() => setMenuOpen(false)}
-                aria-current={current ? "page" : undefined}
-                className={`${linkClass} ${current ? activeClass : ""} rounded-2xl px-4 py-3 hover:bg-(--surface) hover:shadow-[inset_3px_3px_5px_var(--pill-shadow-dark),inset_-3px_-3px_5px_var(--pill-shadow-light)]`}
-              >
-                {link.label}
-              </Link>
+              <li key={link.href} className="border-b border-(--line) last:border-0">
+                <Link
+                  href={link.href}
+                  tabIndex={menuOpen ? 0 : -1}
+                  onClick={() => setMenuOpen(false)}
+                  aria-current={current ? "page" : undefined}
+                  className={`${linkClass} flex items-center justify-between py-4`}
+                >
+                  {link.label}
+                  {current && <span aria-hidden="true" className="h-px w-6 bg-(--luz)" />}
+                </Link>
+              </li>
             );
           })}
-        </div>
-      </div>
+        </ul>
+      </nav>
     </header>
   );
 }

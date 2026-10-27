@@ -22,7 +22,7 @@ export default function TrayectoriaTabs() {
       <div
         role="group"
         aria-label="Propuestas de galería"
-        className="flex flex-wrap justify-center gap-3 px-4 pb-10"
+        className="mx-auto flex w-full max-w-6xl flex-wrap gap-3 px-5 pb-10 sm:px-8"
       >
         {TABS.map((label, index) => (
           <button
@@ -30,7 +30,7 @@ export default function TrayectoriaTabs() {
             type="button"
             aria-pressed={active === index}
             onClick={() => setActive(index)}
-            className="soft-surface rounded-full px-6 py-2.5 text-sm font-medium tracking-[0.14em] uppercase"
+            className="btn btn-ghost"
           >
             {label}
           </button>

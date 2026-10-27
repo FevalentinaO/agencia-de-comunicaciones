@@ -1,26 +1,25 @@
 @import "tailwindcss";
 
+/* Talitha · Comunicación Estratégica — manual de identidad v1.0
+   Azul medianoche (base), Primera luz (acento: trazo, sello, detalle),
+   Bruma (filetes), Papel marfil (fondo). */
 :root {
-  --bg: #e9ecf0;
-  --surface: #edf0f4;
-  --shadow-light: rgba(255, 255, 255, 0.9);
-  --shadow-dark: rgba(163, 177, 198, 0.45);
-  --text: #5a514b;
-  --text-strong: #4a423c;
-  --accent: #1f2a44;
-  --quartz: #f6f3ef;
-  --pill-shadow-dark: #c3cad6;
-  --pill-shadow-light: #ffffff;
+  --azul: #1e2440;
+  --luz: #c8963a;
+  --bruma: #b5b3c3;
+  --marfil: #f4efe6;
 
-  --neu-distance: 8px;
-  --neu-blur: 18px;
-  --neu-distance-sm: 4px;
-  --neu-blur-sm: 10px;
+  --bg: var(--marfil);
+  --surface: #faf6ee;
+  --text: #4a506e;
+  --text-strong: var(--azul);
+  --accent: var(--azul);
+  --gold-text: #7d5a1c;
+  --line: rgba(30, 36, 64, 0.16);
 }
 
 @theme inline {
   --color-bg: var(--bg);
-  --color-surface: var(--surface);
   --color-text: var(--text);
   --color-text-strong: var(--text-strong);
   --color-accent: var(--accent);
@@ -38,28 +37,174 @@ html:has(dialog[open]) {
   overflow: hidden;
 }
 
-/* Slow sideways drift for the hero wave layers. */
-.wave-drift-1,
-.wave-drift-2,
-.wave-drift-3 {
-  animation: wave-drift 14s ease-in-out infinite alternate;
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans), Georgia, serif;
+  overflow-x: clip;
 }
 
-.wave-drift-2 {
-  animation-duration: 18s;
-  animation-direction: alternate-reverse;
+::selection {
+  background: var(--azul);
+  color: var(--marfil);
 }
 
-.wave-drift-3 {
-  animation-duration: 22s;
+/* Titles: Cormorant Garamond, regular and italic, never bold. */
+.display {
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  color: var(--azul);
 }
 
-@keyframes wave-drift {
+/* Small labels: Lora, capitals with wide tracking (like the descriptor). */
+.eyebrow {
+  font-size: 0.8125rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--gold-text);
+}
+
+.rule {
+  border: 0;
+  border-top: 1px solid var(--bruma);
+}
+
+/* Buttons: flat, hairline, no shadows or effects. */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0.95rem 1.9rem;
+  border: 1px solid var(--azul);
+  font-size: 0.8125rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.btn-primary {
+  background: var(--azul);
+  color: var(--marfil);
+}
+
+.btn-primary:hover {
+  background: #2c3563;
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--azul);
+}
+
+.btn-ghost:hover,
+.btn-ghost[aria-pressed="true"] {
+  background: var(--azul);
+  color: var(--marfil);
+}
+
+.btn-light {
+  background: transparent;
+  color: var(--marfil);
+  border-color: rgba(244, 239, 230, 0.55);
+}
+
+.btn-light:hover,
+.btn-light[aria-pressed="true"] {
+  background: var(--marfil);
+  color: var(--azul);
+  border-color: var(--marfil);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn:focus-visible,
+.field:focus-visible,
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--luz);
+  outline-offset: 3px;
+}
+
+/* Form fields: a single hairline that turns gold on focus. */
+.field {
+  width: 100%;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--bruma);
+  border-radius: 0;
+  padding: 0.9rem 0.25rem;
+  font-size: 1rem;
+  color: var(--azul);
+  transition: border-color 0.3s ease;
+}
+
+.field::placeholder {
+  color: #5f6482;
+}
+
+.field:focus,
+.field:focus-visible {
+  outline: none;
+  border-bottom-color: var(--luz);
+  box-shadow: 0 1px 0 0 var(--luz);
+}
+
+/* Entrance: pure CSS, no JS needed, finished state when motion is reduced. */
+.reveal {
+  animation: reveal-rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: var(--d, 0s);
+}
+
+.reveal-line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.12em;
+}
+
+.reveal-line > span {
+  display: block;
+  animation: line-rise 1.1s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: var(--d, 0s);
+}
+
+@keyframes reveal-rise {
   from {
-    transform: translateX(-12px);
+    opacity: 0;
+    transform: translateY(18px);
   }
   to {
-    transform: translateX(14px);
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes line-rise {
+  from {
+    transform: translateY(105%);
+  }
+  to {
+    transform: none;
+  }
+}
+
+.pin-pulse {
+  animation: pin-pulse 2.6s ease-out infinite;
+}
+
+@keyframes pin-pulse {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
   }
 }
 
@@ -69,21 +214,19 @@ html:has(dialog[open]) {
   width: min(94vw, 64rem);
   max-height: 92vh;
   overflow: auto;
-  border: 0;
+  border: 1px solid var(--bruma);
   padding: 0;
-  border-radius: 2.5rem;
-  background: var(--quartz);
-  color: var(--text-strong);
-  box-shadow: 0 30px 80px rgba(40, 50, 70, 0.4);
+  background: var(--marfil);
+  color: var(--azul);
 }
 
 .gallery-dialog::backdrop {
-  background: rgba(84, 94, 112, 0.5);
-  backdrop-filter: blur(6px);
+  background: rgba(30, 36, 64, 0.72);
+  backdrop-filter: blur(4px);
 }
 
 .gallery-dialog[open] {
-  animation: dialog-in 0.55s cubic-bezier(0.2, 0.8, 0.2, 1);
+  animation: dialog-in 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .gallery-dialog[open]::backdrop {
@@ -93,7 +236,7 @@ html:has(dialog[open]) {
 @keyframes dialog-in {
   from {
     opacity: 0;
-    transform: translateY(32px) scale(0.96);
+    transform: translateY(24px);
   }
   to {
     opacity: 1;
@@ -110,132 +253,6 @@ html:has(dialog[open]) {
   }
 }
 
-body {
-  background: var(--bg);
-}
-
-/* Neumorphic surfaces */
-.neu-raised {
-  background: var(--surface);
-  box-shadow: var(--neu-distance) var(--neu-distance) var(--neu-blur) var(--shadow-dark),
-    calc(var(--neu-distance) * -1) calc(var(--neu-distance) * -1) var(--neu-blur) var(--shadow-light);
-  transition: box-shadow 0.3s ease;
-}
-
-.neu-raised-sm {
-  background: var(--surface);
-  box-shadow: var(--neu-distance-sm) var(--neu-distance-sm) var(--neu-blur-sm) var(--shadow-dark),
-    calc(var(--neu-distance-sm) * -1) calc(var(--neu-distance-sm) * -1) var(--neu-blur-sm) var(--shadow-light);
-  transition: box-shadow 0.3s ease;
-}
-
-.neu-raised-sm:hover {
-  box-shadow: inset calc(var(--neu-distance-sm) * 0.6) calc(var(--neu-distance-sm) * 0.6) calc(var(--neu-blur-sm) * 0.8) var(--shadow-dark),
-    inset calc(var(--neu-distance-sm) * -0.6) calc(var(--neu-distance-sm) * -0.6) calc(var(--neu-blur-sm) * 0.8) var(--shadow-light);
-}
-
-.neu-inset {
-  background: var(--surface);
-  box-shadow: inset var(--neu-distance-sm) var(--neu-distance-sm) var(--neu-blur-sm) var(--shadow-dark),
-    inset calc(var(--neu-distance-sm) * -1) calc(var(--neu-distance-sm) * -1) var(--neu-blur-sm) var(--shadow-light);
-}
-
-.neu-pressed:active,
-.neu-pressed[data-pressed="true"] {
-  box-shadow: inset var(--neu-distance-sm) var(--neu-distance-sm) var(--neu-blur-sm) var(--shadow-dark),
-    inset calc(var(--neu-distance-sm) * -1) calc(var(--neu-distance-sm) * -1) var(--neu-blur-sm) var(--shadow-light);
-}
-
-.neu-raised:hover {
-  box-shadow: calc(var(--neu-distance) * 1.2) calc(var(--neu-distance) * 1.2) calc(var(--neu-blur) * 1.1) var(--shadow-dark),
-    calc(var(--neu-distance) * -1.2) calc(var(--neu-distance) * -1.2) calc(var(--neu-blur) * 1.1) var(--shadow-light);
-}
-
-.neu-raised:focus-visible,
-.neu-raised-sm:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
-}
-
-/* Soft neumorphic pill: raised at rest, sinks (inset shadow) on hover.
-   The wrapper carries the GSAP entrance transform. */
-.soft-surface {
-  border: 1px solid rgba(74, 66, 60, 0.08);
-}
-
-.pop-pill,
-.pop-card,
-.soft-surface {
-  background: var(--surface);
-  color: var(--text-strong);
-  cursor: pointer;
-  box-shadow: 3px 3px 5px var(--pill-shadow-dark),
-    -3px -3px 5px var(--pill-shadow-light);
-  transition-duration: 0.5s;
-}
-
-.soft-surface[aria-pressed="true"] {
-  color: var(--accent);
-  font-weight: 700;
-}
-
-.pin-pulse {
-  animation: pin-pulse 2.6s ease-out infinite;
-}
-
-@keyframes pin-pulse {
-  0% {
-    transform: scale(0.6);
-    opacity: 0.9;
-  }
-  100% {
-    transform: scale(2.2);
-    opacity: 0;
-  }
-}
-
-.pop-card {
-  border-radius: 2.25rem;
-  padding: 1.1rem 2.25rem;
-  cursor: default;
-}
-
-.pop-pill {
-  border-radius: 10em;
-  font-weight: 600;
-  padding: 0.8em 1.8em;
-}
-
-.pop-pill:hover,
-.pop-pill:active,
-.pop-card:hover,
-.soft-surface:hover,
-.soft-surface:active,
-.soft-surface[aria-pressed="true"] {
-  box-shadow: inset 3px 3px 5px var(--pill-shadow-dark),
-    inset -3px -3px 5px var(--pill-shadow-light);
-}
-
-.perspective-container {
-  perspective: 1400px;
-}
-
-.preserve-3d {
-  transform-style: preserve-3d;
-}
-
-/* Pre-hide entrance targets via stylesheet (no FOUC) without blocking the
-   LCP photo, which stays visible and only transform-animates on entrance. */
-[data-hero-bg-blob],
-[data-hero-photo],
-[data-hero-title],
-[data-hero-title-line],
-[data-hero-subtitle],
-[data-hero-nav],
-[data-hero-contact] {
-  opacity: 0;
-}
-
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -245,22 +262,4 @@ body {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-}
-
-/* Focus on form fields and pill buttons: pressed-in look with a soft grey
-   halo instead of a dark outline. */
-.neu-inset:focus,
-.neu-inset:focus-visible {
-  outline: none;
-  box-shadow: inset 6px 6px 10px var(--pill-shadow-dark),
-    inset -6px -6px 10px var(--pill-shadow-light),
-    0 0 0 3px rgba(154, 163, 178, 0.35);
-}
-
-.pop-pill:focus-visible,
-.soft-surface:focus-visible {
-  outline: none;
-  box-shadow: inset 3px 3px 5px var(--pill-shadow-dark),
-    inset -3px -3px 5px var(--pill-shadow-light),
-    0 0 0 3px rgba(154, 163, 178, 0.35);
 }

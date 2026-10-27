@@ -74,13 +74,13 @@ function GalleryModal({
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.98 }}
         transition={{ type: "spring", stiffness: 400, damping: 30 }}
-        className="fixed inset-0 z-[60] flex items-center justify-center bg-[#e9ecf0]/85 p-3 backdrop-blur-lg sm:p-6"
+        className="fixed inset-0 z-[60] flex items-center justify-center bg-(--marfil)/92 p-3 backdrop-blur-lg sm:p-6"
         onClick={onClose}
       >
         <AnimatePresence mode="wait">
           <motion.div
             key={selectedItem.id}
-            className="relative aspect-[16/9] h-auto max-h-[70vh] w-full max-w-[95%] overflow-hidden rounded-2xl shadow-[0_20px_60px_rgba(50,60,80,0.3)] sm:max-w-[85%] md:max-w-3xl"
+            className="relative aspect-[16/9] h-auto max-h-[70vh] w-full max-w-[95%] overflow-hidden border border-(--bruma) sm:max-w-[85%] md:max-w-3xl"
             initial={{ y: 20, scale: 0.97, opacity: 0 }}
             animate={{
               y: 0,
@@ -94,7 +94,7 @@ function GalleryModal({
               item={selectedItem}
               contain
               sizes="(min-width: 768px) 48rem, 95vw"
-              className="h-full w-full bg-[#c6ccd7]"
+              className="h-full w-full bg-[#dedbe6]"
             />
             <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/55 to-transparent p-3 md:p-4">
               <h3 className="text-base font-semibold text-white md:text-xl">
@@ -112,7 +112,7 @@ function GalleryModal({
             onClose();
           }}
           aria-label="Cerrar"
-          className="soft-surface absolute top-3 right-3 flex h-10 w-10 items-center justify-center rounded-full text-(--text-strong) sm:top-5 sm:right-5"
+          className="btn btn-ghost absolute top-3 right-3 h-11 w-11 p-0! sm:top-5 sm:right-5"
         >
           <X className="h-4 w-4" aria-hidden="true" />
         </button>
@@ -130,7 +130,7 @@ function GalleryModal({
         }
         className="fixed bottom-4 left-1/2 z-[70] -translate-x-1/2 touch-none"
       >
-        <div className="neu-raised cursor-grab rounded-2xl active:cursor-grabbing">
+        <div className="cursor-grab border border-(--bruma) bg-(--marfil) active:cursor-grabbing">
           <div className="flex items-center -space-x-2 px-3 py-2">
             {items.map((item, index) => {
               const active = selectedItem.id === item.id;
@@ -145,9 +145,9 @@ function GalleryModal({
                     setSelectedItem(item);
                   }}
                   style={{ zIndex: active ? 30 : items.length - index }}
-                  className={`relative h-9 w-9 flex-shrink-0 overflow-hidden rounded-lg hover:z-20 sm:h-10 sm:w-10 ${
+                  className={`relative h-9 w-9 flex-shrink-0 overflow-hidden hover:z-20 sm:h-10 sm:w-10 ${
                     active
-                      ? "shadow-lg ring-2 ring-(--accent)"
+                      ? "ring-2 ring-(--luz)"
                       : "hover:ring-2 hover:ring-(--text)/40"
                   }`}
                   initial={{ rotate: index % 2 === 0 ? -15 : 15 }}
@@ -192,7 +192,7 @@ export default function InteractiveBentoGallery({
       {(title || description) && (
         <div className="mb-8 text-center">
           {title && (
-            <h2 className="font-(family-name:--font-display) text-3xl font-medium text-(--text-strong)">
+            <h2 className="display text-4xl">
               {title}
             </h2>
           )}
@@ -217,7 +217,7 @@ export default function InteractiveBentoGallery({
             role="button"
             tabIndex={0}
             aria-label={`Abrir ${item.title}`}
-            className={`group relative cursor-grab overflow-hidden rounded-2xl shadow-[0_6px_18px_rgba(50,60,80,0.18)] active:cursor-grabbing ${item.span}`}
+            className={`group relative cursor-grab overflow-hidden active:cursor-grabbing ${item.span}`}
             onClick={() => !isDragging && setSelectedItem(item)}
             onKeyDown={(event) => {
               if (event.key === "Enter" || event.key === " ") {

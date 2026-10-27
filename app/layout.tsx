@@ -1,28 +1,35 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Manrope } from "next/font/google";
+import { Cormorant_Garamond, Lora } from "next/font/google";
+import Footer from "@/components/Footer";
+import Nav from "@/components/Nav";
 import "./globals.css";
 
+// Brand typography: Cormorant Garamond for titles and the logotype,
+// Lora for paragraphs and the descriptor.
 const display = Cormorant_Garamond({
   variable: "--font-display",
   subsets: ["latin"],
-  weight: ["500", "600"],
+  weight: ["400"],
+  style: ["normal", "italic"],
   display: "swap",
 });
 
-const sans = Manrope({
+const sans = Lora({
   variable: "--font-sans",
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: ["400", "500"],
+  style: ["normal", "italic"],
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Caro & Diana — AGENCIA DE COMUNICACIONES",
+  title: "Talitha — Comunicación Estratégica",
   description:
-    "Agencia de comunicaciones dirigida por Caro y Diana. Portafolio, animaciones y fotografía con criterio propio.",
+    "Criterio con personalidad, creatividad con propósito y excelencia en cada detalle. Entendemos que cada palabra construye reputación.",
   openGraph: {
-    title: "Caro & Diana — AGENCIA DE COMUNICACIONES",
-    description: "Agencia de comunicaciones dirigida por Caro y Diana.",
+    title: "Talitha — Comunicación Estratégica",
+    description:
+      "Pensamos, cuestionamos, proponemos y ejecutamos con intención.",
     locale: "es_ES",
     type: "website",
   },
@@ -32,12 +39,11 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html
-      lang="es"
-      className={`${display.variable} ${sans.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col bg-(--bg) text-(--text)">
-        {children}
+    <html lang="es" className={`${display.variable} ${sans.variable} h-full antialiased`}>
+      <body className="flex min-h-full flex-col">
+        <Nav />
+        <main className="flex-1">{children}</main>
+        <Footer />
       </body>
     </html>
   );

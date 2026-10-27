@@ -1,35 +1,37 @@
 import GlobeExplorerLazy from "./GlobeExplorerLazy";
 import RevealOnScroll from "./RevealOnScroll";
-import WaveEdge from "./WaveEdge";
+import { Seal } from "./Logo";
 
 export default function Galerias() {
   return (
     <section
       id="galerias"
-      aria-labelledby="galerias-heading"
-      className="relative my-24 scroll-mt-28 bg-(--band) py-16 [--band:#aeb6c3] sm:my-32"
+      aria-labelledby="galerias-titulo"
+      className="scroll-mt-24 bg-(--azul) text-(--marfil)"
     >
-      <WaveEdge />
-      <WaveEdge flip />
+      <div className="mx-auto w-full max-w-6xl px-5 py-24 sm:px-8 lg:py-32">
+        <RevealOnScroll className="flex flex-col gap-16">
+          <div className="grid items-end gap-8 border-b border-(--bruma)/40 pb-10 lg:grid-cols-[1.3fr_1fr]">
+            <div className="flex flex-col gap-6">
+              <div className="flex items-center gap-4">
+                <Seal className="h-7 w-auto" />
+                <p className="eyebrow !text-(--luz)">Galerías</p>
+              </div>
+              <h2
+                id="galerias-titulo"
+                className="display !text-(--marfil) text-4xl leading-[1.1] sm:text-5xl lg:text-6xl"
+              >
+                Toca un pin y viaja a <em className="italic">su historia.</em>
+              </h2>
+            </div>
+            <p className="max-w-sm text-lg leading-relaxed text-(--bruma)">
+              La Tierra gira hasta cada destino y abre su galería.
+            </p>
+          </div>
 
-      <RevealOnScroll className="mx-auto flex w-full max-w-5xl flex-col items-center gap-12 px-4">
-        <div className="flex max-w-2xl flex-col items-center gap-5 text-center">
-          <p className="text-sm font-medium tracking-[0.3em] text-(--text-strong) uppercase">
-            Galerías
-          </p>
-          <h2
-            id="galerias-heading"
-            className="font-(family-name:--font-display) text-3xl leading-[1.15] font-medium tracking-wide text-(--text-strong) sm:text-4xl"
-          >
-            Toca un pin y viaja a su historia.
-          </h2>
-          <p className="text-base leading-relaxed text-(--text-strong)">
-            La Tierra gira hasta cada destino y abre su galería.
-          </p>
-        </div>
-
-        <GlobeExplorerLazy />
-      </RevealOnScroll>
+          <GlobeExplorerLazy />
+        </RevealOnScroll>
+      </div>
     </section>
   );
 }
